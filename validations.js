@@ -1,9 +1,10 @@
 const joi = require('@hapi/joi');
 const customJoi = joi.extend(require('joi-phone-number'));
 
-const registerValidation = (data) =>{
+module.exports.userValidation = (data) =>{
      
     const schema = joi.object({
+        _id: joi.string(),
         name: joi.string().min(6).required(),
         email: joi.string().min(6).required().email(),
         password: joi.string().min(8).required(),
@@ -11,12 +12,13 @@ const registerValidation = (data) =>{
         country: joi.string().required(),
         city: joi.string().required(),
         address: joi.string().required(),
-        postalCode: joi.string().required().length(5)
+        postalCode: joi.string().required().length(5),
+        role: joi.string()
     });
     return schema.validate(data, { abortEarly: false });
 }
 
-const loginValidation = (data) =>{
+module.exports.loginValidation = (data) =>{
      
     const schema = joi.object({
         email: joi.string().required().email(),
@@ -24,5 +26,3 @@ const loginValidation = (data) =>{
     });
     return schema.validate(data, { abortEarly: false });
 }
-module.exports.registerValidation = registerValidation;
-module.exports.loginValidation = loginValidation;
