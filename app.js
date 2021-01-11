@@ -21,8 +21,8 @@ mongoose
 app.use(express.json());
 
 //Import routes
-const authRoute = require("./routes/auth");
-const userRoute = require("./routes/user");
+const authRoute = require("./routes/authRoute");
+const userRoute = require("./routes/userRoute");
 
 //Route middlewares
 app.use("/api/auth", authRoute);

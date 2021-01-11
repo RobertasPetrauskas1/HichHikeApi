@@ -1,48 +1,23 @@
-const mongoose = require('mongoose');
+const userSchema = require('../schemas/userSchema');
+const model = require('mongoose').model;
+const User = model('Users', userSchema);
 
-const userSchema = new mongoose.Schema({
-    name:{
-        type: String,
-        required: true,
-        min: 6,
-        max: 255
-    },
-    email:{
-        type: String,
-        required: true,
-        min: 6,
-        max: 255
-    },
-    password:{
-        type: String,
-        required: true,
-        min: 8
-    },
-    phoneNumber:{
-        type: String,
-        required: true,
-    },
-    country:{
-        type: String,
-        required: true
-    },
-    city:{
-        type: String,
-        required: true
-    },
-    address:{
-        type: String,
-        required: true
-    },
-    postalCode:{
-        type: String,
-        required: true,
-        length: 5
-    },
-    role:{
-        type: String,
-        required: true
-    }
-});
 
-module.exports = mongoose.model('Users', userSchema)
+module.exports.addNewUser = (user) =>{
+    return User.create(user);
+}
+module.exports.getUserById = (id) =>{
+    return User.findById(id);
+}
+module.exports.getUserByEmail = (email) =>{
+    return User.findOne({email});
+}
+module.exports.getAllUsers = () =>{
+    return User.find();
+}
+module.exports.deleteUserById = (id) =>{
+    return User.deleteOne({_id: id});
+}
+module.exports.updateUser = (user) =>{
+    return User.replaceOne({_id: user._id}, user);
+}
