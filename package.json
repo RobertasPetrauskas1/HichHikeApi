@@ -4,6 +4,7 @@
   "description": "HitchHike api",
   "main": "index.js",
   "scripts": {
+    "test": "mocha || true",
     "start": "npm app.js",
     "dev": "nodemon app.js"
   },
@@ -19,7 +20,10 @@
     "mongoose": "^5.11.11"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "esm": "^3.2.25",
-    "nodemon": "^2.0.7"
+    "mocha": "^8.2.1",
+    "nodemon": "^2.0.7",
+    "sinon": "^9.2.3"
   }
 }
