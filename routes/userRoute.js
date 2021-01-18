@@ -16,7 +16,7 @@ router.get('/', verifyJWT, async (req, res) => {
         }
     }
     else{
-        res.status(401).send("Access Denied");
+        return res.status(401).send("Unauthorized");
     }
 })
 
@@ -41,7 +41,7 @@ router.get('/:id', verifyJWT, async (req, res) => {
         }
     }
     else{
-        res.status(401).send("Access Denied");
+        return res.status(401).send("Unauthorized");
     }
 })
 
@@ -75,7 +75,7 @@ router.put('/', verifyJWT, async (req, res) => {
         }
     }
     else{
-        res.status(401).send("Access Denied");
+        return res.status(401).send("Unauthorized");
     }
 })
 
@@ -101,7 +101,7 @@ router.delete('/:id', verifyJWT, async (req, res) =>{
         }
     }
     else{
-        res.status(401).send("Access Denied");
+        return res.status(401).send("Unauthorized");
     }
 });
 

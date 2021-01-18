@@ -21,12 +21,12 @@ mongoose
 app.use(express.json());
 
 //Import routes
-const authRoute = require("./routes/authRoute");
-const userRoute = require("./routes/userRoute");
+const {authRoute, userRoute, tripRoute} = require("./routes");
 
 //Route middlewares
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
+app.use("/api/trip", tripRoute);
 
 app.get("/", (req, res) => {
   res.send("Test");
