@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const UserService = require('../../services/userService');
 const userService = new UserService(User);
 
-let userObj = {
+const userObj = {
     "_id": "5ff9ca813844e025945cf8ab",
     "name": "HitchHike-Admin",
     "email": "admin@hitchhike.com",
@@ -14,10 +14,10 @@ let userObj = {
     "city": "Kaunas",
     "address": "Ukmergės g. 22",
     "postalCode": "49315",
-    "role": "ADMIN"
+    "role": "USER"
 }
 
-let userObj2 = {
+const userObj2 = {
     "_id": "5ff9ca813844e025945cf8ab",
     "name": "HitchHike-Admin",
     "email": "admin@hitchhike.com",
@@ -27,15 +27,42 @@ let userObj2 = {
     "city": "Kaunas",
     "address": "Ukmergės g. 22",
     "postalCode": "49315",
-    "role": "ADMIN"
+    "role": "USER"
 }
-const getByIdStub = sinon.stub(User, 'getUserById').returns(userObj)
-const updateStub = sinon.stub(User, 'updateUser').returns(userObj)
+afterEach(() => {
+    sinon.restore();
+})
 
-describe('userService', () =>{
-    it('update', () =>{
-
+describe('userService:', () =>{
+    describe('update(user):', () =>{
+        it('successful call', async () =>{
+            const getByIdStub = sinon.stub(User, 'getUserById').withArgs(userObj._id).returns(userObj2);
+            const deleteStub = sinon.stub(User, 'updateUser').withArgs(userObj).returns({ok: 1});
     
+            const result = await userService.update(userObj);
+            assert.deepEqual(result, {success: true, result: "Updated successfuly"})
+        })
+        it('with bad id', async () =>{
+            const getByIdStub = sinon.stub(User, 'getUserById').withArgs(userObj._id).returns(null);
+    
+            const result = await userService.update(userObj);
+            assert.deepEqual(result, {success: false, err: `User with id: ${userObj._id} not found`})
+        })
+    })
 
+    describe('delete(id):', () =>{
+        it('successful call', async () =>{
+            const getByIdStub = sinon.stub(User, 'getUserById').withArgs(userObj._id).returns(userObj);
+            const deleteStub = sinon.stub(User, 'deleteUserById').withArgs(userObj._id).returns({ok: 1});
+    
+            const result = await userService.delete(userObj._id);
+            assert.deepEqual(result, {success: true, result: "Deleted successfuly"})
+        })
+        it('with bad id', async () =>{
+            const getByIdStub = sinon.stub(User, 'getUserById').withArgs(userObj._id).returns(null);
+    
+            const result = await userService.delete(userObj._id);
+            assert.deepEqual(result, {success: false, err: `User with id: ${userObj._id} not found`})
+        })
     })
 })

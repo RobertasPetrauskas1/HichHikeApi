@@ -4,7 +4,7 @@
   "description": "HitchHike api",
   "main": "index.js",
   "scripts": {
-    "test": "mocha || true",
+    "test": "mocha --recursive -r dotenv/config",
     "start": "npm app.js",
     "dev": "nodemon app.js"
   },
