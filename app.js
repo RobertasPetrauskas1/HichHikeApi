@@ -21,7 +21,7 @@ mongoose
 app.use(express.json());
 
 //Import routes
-const {authRoute, userRoute, tripRoute} = require("./routes");
+const {authRoute, userRoute, tripRoute} = require("./controllers");
 
 //Route middlewares
 app.use("/api/auth", authRoute);
@@ -31,6 +31,7 @@ app.use("/api/trip", tripRoute);
 app.get("/", (req, res) => {
   res.send("Test");
 });
-app.listen(5000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("Server started...");
 });
+module.exports = app;

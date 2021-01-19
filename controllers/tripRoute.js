@@ -16,7 +16,7 @@ router.get('/', async (req, res) =>{
 
 router.get('/:id', async (req, res) =>{
     if(!req.params.id){
-        return res.status(400).send("missing id");
+        return res.status(400).send("Missing id");
     }
     const response = await tripService.get(req.params.id);
     if(response.success){
@@ -58,7 +58,7 @@ router.put('/', verifyJWT, async (req, res) =>{
 })
 router.delete('/:id', verifyJWT, async (req, res) =>{
     if(!req.params.id){
-        return res.status(400).send("missing id");
+        return res.status(400).send("Missing id");
     }
     const exists = await tripService.get(req.params.id);
 
