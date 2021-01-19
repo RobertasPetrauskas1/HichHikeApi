@@ -40,6 +40,11 @@ router.post('/', verifyJWT, async (req, res) =>{
 })
 
 router.put('/', verifyJWT, async (req, res) =>{
+    const {error} = editTripValidation(req.body);
+    if(error){
+        return res.status(400).send(error);
+    }
+
     const exists = await tripService.get(req.body._id);
     if(exists.success){
         if(req.user._id === exists.result.creatorId || req.user.role === process.env.ADMIN_ROLE){
