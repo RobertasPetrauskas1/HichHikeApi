@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 
-module.exports = class authService{
+module.exports = class AuthService{
     constructor(userModel){
         this.userModel = userModel;
     }
@@ -21,7 +21,7 @@ module.exports = class authService{
 
             return {success: false, err: "Failed to register user"}
         } catch{
-            return {success: false, err}
+            return {success: false, err: err.toString()}
         }
     }
     async login(credentials){
@@ -33,7 +33,7 @@ module.exports = class authService{
             }
             return {success: false, err: "Username and/or password incorrect"}
         }catch(err){
-            return {success: false, err}
+            return {success: false, err: err.toString()}
         }
     }
 }

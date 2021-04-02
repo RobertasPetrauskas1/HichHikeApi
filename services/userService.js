@@ -1,14 +1,18 @@
 const {hashPassword} = require('./authService')
-module.exports = class userService{
+module.exports = class UserService{
     constructor(userModel){
         this.userModel = userModel;
     }
     async get(id){       
         try{
             const result = await this.userModel.getUserById(id);
-            return {success: true, result}
+            if(result){
+                return {success: true, result}
+            }
+            
+            return {success: false, err: `No user with id: ${id}`}
         }catch(err){
-            return {success: false, err: err.toString()}
+            return {success: false, err: `id: ${id} is invalid`}
         }
     }
     async getAll(){
@@ -29,7 +33,7 @@ module.exports = class userService{
             user.password = await hashPassword(user.password)
             const result = await this.userModel.updateUser(user);
             if(result.ok === 1){
-                return {success: true, result: "Updated succesfuly"}
+                return {success: true, result: "Updated successfuly"}
             }
 
             return {success: false, err: "Failed to update user with id: " + user._id}
@@ -46,7 +50,7 @@ module.exports = class userService{
         try{
             const result = await this.userModel.deleteUserById(id);
             if(result.ok === 1){
-                return {success: true, result: "Deleted succesfuly"}
+                return {success: true, result: "Deleted successfuly"}
             }
 
             return {success: false, err: "Failed to delete user with id: " + id}
