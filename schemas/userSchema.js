@@ -22,18 +22,22 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    country:{
+    country: {
+        name: {
+          type: String,
+          required: true,
+        }
+      },
+      city: {
+        name: {
+          type: String,
+          required: true,
+        }
+      },
+      address: {
         type: String,
-        required: true
-    },
-    city:{
-        type: String,
-        required: true
-    },
-    address:{
-        type: String,
-        required: true
-    },
+        required: true,
+      },
     postalCode:{
         type: String,
         required: true,

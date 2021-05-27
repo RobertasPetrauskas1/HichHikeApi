@@ -28,7 +28,7 @@ module.exports = class AuthService{
         try{
             const user = await this.userModel.getUserByEmail(credentials.email);
             if(user && bcrypt.compareSync(credentials.password, user.password)){
-                const token = jwt.sign({_id: user._id, email: user.email, role: user.role}, process.env.TOKEN_SECRET, { expiresIn: '720h' });
+                const token = jwt.sign({_id: user._id, email: user.email, role: user.role}, process.env.TOKEN_SECRET, { expiresIn: '1h' });
                 return {success: true, result: token}
             }
             return {success: false, err: "Username and/or password incorrect"}

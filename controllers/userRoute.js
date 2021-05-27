@@ -30,8 +30,7 @@ router.get('/current', verifyJWT, async (req, res) => {
         }
 })
 
-router.get('/:id', verifyJWT, async (req, res) => {
-    if(req.user.role === process.env.ADMIN_ROLE){
+router.get('/:id', async (req, res) => {
         const response = await userServiceInstance.get(req.params.id);
         if(response.success){
             return res.send(response.result)
@@ -39,10 +38,6 @@ router.get('/:id', verifyJWT, async (req, res) => {
         else{
             return res.status(400).send(response.err);
         }
-    }
-    else{
-        return res.status(401).send("Unauthorized");
-    }
 })
 
 router.put('/current', verifyJWT, async (req, res) => {
@@ -50,8 +45,7 @@ router.put('/current', verifyJWT, async (req, res) => {
     if (error) 
         return res.status(400).send(error);
 
-    req.body._id = req.user._id;
-    const response = await userServiceInstance.update(req.body);
+    const response = await userServiceInstance.update(req.user._id, req.body);
         if(response.success){
             return res.send(response.result);
         }
@@ -60,13 +54,16 @@ router.put('/current', verifyJWT, async (req, res) => {
         }
 })
 
-router.put('/', verifyJWT, async (req, res) => {
+router.put('/:id', verifyJWT, async (req, res) => {
+    if(!req.params.id){
+        return res.status(400).send("Missing id");
+    }
     if(req.user.role === process.env.ADMIN_ROLE){
         const { error } = userValidation(req.body);
         if (error) 
             return res.status(400).send(error);
 
-        const response = await userServiceInstance.update(req.body);
+        const response = await userServiceInstance.update(req.params.id, req.body);
         if(response.success){
             return res.send(response.result);
         }

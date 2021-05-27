@@ -9,11 +9,14 @@ module.exports.userValidation = (data) =>{
         email: joi.string().min(6).required().email(),
         password: joi.string().min(8).required(),
         phoneNumber: customJoi.string().phoneNumber().required(),
-        country: joi.string().required(),
-        city: joi.string().required(),
+        country: joi.object({
+            name: joi.string().required()
+        }),
+        city: joi.object({
+            name: joi.string().required()
+        }),
         address: joi.string().required(),
-        postalCode: joi.string().required().length(5),
-        role: joi.string()
+        postalCode: joi.string().required().length(8),
     });
     return schema.validate(data, { abortEarly: false });
 }
@@ -27,42 +30,41 @@ module.exports.loginValidation = (data) =>{
     return schema.validate(data, { abortEarly: false });
 }
 
-module.exports.createTripValidation = (data) =>{
+module.exports.tripValidation = (data) =>{
     const schema = joi.object({
+        _id: joi.string(),
         availableSeatCount: joi.number().required(),
         destinationFrom: joi.object({
-            country: joi.string().required(),
-            city: joi.string().required(),
+            country: joi.object({
+                id: joi.string().required(),
+                name: joi.string()
+            }),
+            city: joi.object({
+                id: joi.string().required(),
+                countryId: joi.string().required(),
+                name: joi.string()
+            }),
             address: joi.string().required()
         }).required(),
         destinationTo: joi.object({
-            country: joi.string().required(),
-            city: joi.string().required(),
-            address: joi.string()
-        }).required(),
-        date: joi.date().required(),
-        time: joi.string().required(),
-        description: joi.string().required()
-    });
-    return schema.validate(data, {abortEarly: false })
-}
-module.exports.editTripValidation = (data) =>{
-    const schema = joi.object({
-        _id: joi.string().required(),
-        availableSeatCount: joi.number().required(),
-        destinationFrom: joi.object({
-            country: joi.string().required(),
-            city: joi.string().required(),
-            address: joi.string().required()
-        }).required(),
-        destinationTo: joi.object({
-            country: joi.string().required(),
-            city: joi.string().required(),
+            country: joi.object({
+                id: joi.string().required(),
+                name: joi.string()
+            }),
+            city: joi.object({
+                id: joi.string().required(),
+                countryId: joi.string().required(),
+                name: joi.string()
+            }),
             address: joi.string().required()
         }).required(),
         date: joi.date().required(),
         time: joi.string().required(),
-        description: joi.string().required()
+        description: joi.string().required(),
+        travelers: joi.array().items({
+            userId: joi.string().required(),
+            isConfirmed: joi.boolean().required()
+        })
     });
     return schema.validate(data, {abortEarly: false })
 }

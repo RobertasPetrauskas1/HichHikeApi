@@ -86,19 +86,19 @@ describe('tripService:', () =>{
     })
 
     it('edit(trip): with good data', async () =>{
-        const getByIdStub = sinon.stub(Trip, 'getTripById').withArgs(putTripObj._id).returns(getTripObj);
+        const getByIdStub = sinon.stub(Trip, 'getTripById').withArgs("6007120823bc1c2020d2e44a").returns(getTripObj);
         const updateTripStub = sinon.stub(Trip, 'updateTrip').withArgs(putTripObj).returns({ok: 1});
 
-        const response = await tripService.edit(putTripObj);
+        const response = await tripService.edit("6007120823bc1c2020d2e44a", putTripObj);
         assert.deepEqual(response, {success: true, result: "Updated successfuly"});
     })
 
     it('edit(trip): with bad id', async () =>{
-        const getByIdStub = sinon.stub(Trip, 'getTripById').withArgs(putTripObj._id).returns(null);
+        const getByIdStub = sinon.stub(Trip, 'getTripById').withArgs("6007120823bc1c2020d2e44a").returns(null);
         const updateTripStub = sinon.stub(Trip, 'updateTrip').withArgs(putTripObj).returns({ok: 1});
 
-        const response = await tripService.edit(putTripObj);
-        assert.deepEqual(response, {success: false, err: `No trip with _id: ${putTripObj._id} found`});
+        const response = await tripService.edit("6007120823bc1c2020d2e44a", putTripObj);
+        assert.deepEqual(response, {success: false, err: `No trip with _id: ${"6007120823bc1c2020d2e44a"} found`});
     })
 
     it('delete(id): with good id', async () =>{

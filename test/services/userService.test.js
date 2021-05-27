@@ -35,16 +35,16 @@ afterEach(() => {
 
 describe('userService:', () =>{
     it('update(user): successful call', async () =>{
-        const getByIdStub = sinon.stub(User, 'getUserById').withArgs(userObj._id).returns(userObj2);
+        const getByIdStub = sinon.stub(User, 'getUserById').withArgs("5ff9ca813844e025945cf8ab").returns(userObj2);
         const deleteStub = sinon.stub(User, 'updateUser').withArgs(userObj).returns({ok: 1});
 
-        const result = await userService.update(userObj);
+        const result = await userService.update("5ff9ca813844e025945cf8ab", userObj);
         assert.deepEqual(result, {success: true, result: "Updated successfuly"})
     })
     it('update(user): with bad id', async () =>{
-        const getByIdStub = sinon.stub(User, 'getUserById').withArgs(userObj._id).returns(null);
+        const getByIdStub = sinon.stub(User, 'getUserById').withArgs("5ff9ca813844e025945cf8ab").returns(null);
 
-        const result = await userService.update(userObj);
+        const result = await userService.update("5ff9ca813844e025945cf8ab", userObj);
         assert.deepEqual(result, {success: false, err: `User with id: ${userObj._id} not found`})
     })
 

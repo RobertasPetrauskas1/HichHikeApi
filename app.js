@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require('cors');
+
+//Enable cors
+app.use(cors());
 
 //Load .env environment variables into process.env
 dotenv.config();
@@ -21,12 +25,13 @@ mongoose
 app.use(express.json());
 
 //Import routes
-const {authRoute, userRoute, tripRoute} = require("./controllers");
+const {authRoute, userRoute, tripRoute, utilRoute} = require("./controllers");
 
 //Route middlewares
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/trip", tripRoute);
+app.use("/api/util", utilRoute);
 
 app.get("/", (req, res) => {
   res.send("Test");
